@@ -7,7 +7,7 @@
 |Matrícula | Aluno |
 | -- | -- |
 | 18/0121847  |  Helder Lourenço de Abreu Marques |
-| xx/xxxxxx  |  xxxx xxxx xxxxx |
+| 19/0042303  |  Carlos Daniel de Godoy Barros Nascimento |
 
 ## Sobre 
 - Listar todos os Pokemon e suas informações básicas da primeira geração(nome, tipo, número na Pokedex etc.). 
