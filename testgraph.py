@@ -1,5 +1,32 @@
 f = open("testador.txt", "a")
 
+def bfs(self, start, end):
+    visited = set()
+    queue = [start]
+    prev = {start: None}
+
+    while queue:
+        node = queue.pop(0)
+
+        if node == end:
+            path = [end]
+            while prev[path[-1]] is not None:
+                path.append(prev[path[-1]])
+            path.reverse()
+            print(" -> ".join(path))
+            return
+
+        if node not in visited:
+            visited.add(node)
+
+            for neighbor in self.graph[node]:
+                if neighbor not in visited:
+                    queue.append(neighbor)
+                    prev[neighbor] = node
+
+    print(f"Nenhum caminho de {start} para {end} encontrado.")
+
+
 def get_Data():
     i = 0
     a = input('pokemon name ')
