@@ -1,3 +1,2 @@
 pichu->pikachu
 chicorita->bayleef
-w1
