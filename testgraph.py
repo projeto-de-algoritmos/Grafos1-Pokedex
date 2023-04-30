@@ -1,5 +1,6 @@
 from collections import defaultdict
 import tkinter as tk
+import tkinter.messagebox
 class Pokedex:
     def __init__(self):
         self.graph = defaultdict(list)
@@ -13,6 +14,37 @@ class Pokedex:
             evolutions = ", ".join(self.graph[pokemon])
             print(f"{pokemon}: {evolutions}")
 
+
+
+
+def Mostra_Lista():
+    file = open("pokedex.txt", "r")
+    root = tk.Tk()
+    root.configure(bg='#F96F6F')
+    listbox = tk.Listbox(root, height = 30,
+                  width = 30,
+                  bg = "#F96F6F",
+                  activestyle = 'dotbox',
+                  font = "Helvetica",
+                  fg = "black")
+    # Define the size of the window.
+    root.geometry("600x600") 
+    i = 0
+    lines = iter(file.readlines())
+    while True:
+        try:
+            line = next(lines)
+            listbox.insert(i, line)
+            i+=1
+        except StopIteration:
+            break
+
+    # Define a label for the list. 
+    label = tk.Label(root, text = "Listagem pokemon")
+    label.pack()
+    listbox.pack()
+    listbox.configure(justify='center')
+    root.mainloop()
 class Passwordchecker(tk.Frame):
     def __init__(self, parent):
        tk.Frame.__init__(self, parent)
@@ -20,18 +52,28 @@ class Passwordchecker(tk.Frame):
        self.initialize_user_interface()
 
     def initialize_user_interface(self):
-       self.parent.geometry("400x400")
+       self.parent.geometry("600x600")
        self.parent.title("Inserir Pokemon")
        self.entry=tk.Entry(self.parent)
        self.entry.pack()
-       self.label=tk.Label(self.parent,text="Digite o nome de um pokemon")
+       self.entry.place(anchor = 'center', relx = .5, rely = .1)
+       self.label=tk.Label(self.parent,text="Digite o nome de um pokemon", bg='#B8B7B7', fg='black')
+       texto.config(font=('Helvetica bold', 26))
        self.label.pack()
+       self.label.place(anchor = 'center', relx = .5, rely = .2)
        self.entry2=tk.Entry(self.parent)
        self.entry2.pack()
-       self.label=tk.Label(self.parent,text="Digite o nome de sua evolução")
+       self.entry2.place(anchor = 'center', relx = .5, rely = .3)
+       self.label=tk.Label(self.parent,text="Digite o nome de sua evolução", bg='#B8B7B7', fg='black')
+       texto.config(font=('Helvetica bold', 26))
        self.label.pack()
-       self.button=tk.Button(self.parent,text="Inserir", command=self.Namecheck)
-       self.button.pack()
+       self.label.place(anchor = 'center', relx = .5, rely = .4)
+       self.button=tk.Button(self.parent,text="Inserir", bg='#7CFF00', activebackground="#BC03FC", command=self.Namecheck)
+       self.button.pack(pady=20)
+       self.button.place(anchor = 'center', relx = .5, rely = .5)
+       self.button=tk.Button(self.parent,text="voltar", bg='#FF0036', activebackground="#BC03FC", command=self.destroy)
+       self.button.pack(pady=20)
+       self.button.place(anchor = 'center', relx = .5, rely = .6)
 
     def Namecheck(self):
         try:
@@ -39,10 +81,15 @@ class Passwordchecker(tk.Frame):
             evolution = self.entry2.get()
         except:
             self.label.config(text="Falha na inserção")
-        pokedex.add_pokemon(name, evolution)
+        if(name and evolution != ""):
+            pokedex.add_pokemon(name, evolution)
+            print("consegui adicionar", name, evolution)
+            tk.messagebox.showinfo("Aviso!!",  "Adicionados a lista, para salvar em arquivo clique em [salvar pokedex]")
+
 
 def Insert_Name():
     root = tk.Tk()
+    root.configure(bg='#F96F6F')
     run = Passwordchecker(root)
     root.mainloop()
 
@@ -98,6 +145,13 @@ def dfs(self, start, end, visited=None, prev=None):
         if start == prev[start]:
             print(f"No path from {start} to {end} found.")
 
+def Save_Pokedex():
+    with open("pokedex.txt", "w") as f:
+            for pokemon, evolutions in pokedex.graph.items():
+                f.write(f"{pokemon} {' '.join(evolutions)}\n")
+    print("Pokedex armazenada!!")
+    tk.messagebox.showinfo("Aviso!!",  "Pokedex armazenada")
+
 if __name__ == "__main__":
     pokedex = Pokedex()
     # Load pokedex from file
@@ -114,73 +168,76 @@ if __name__ == "__main__":
     choice=0
 
     janela = tk.Tk()
-    janela.geometry('400x400')
+    janela.geometry('600x600')
     janela.title("Pokedex customizada!")
-    texto = tk.Label(janela, text="Bem vindo a pokedex customizada!!")
-    texto.grid(column=0, row=0, padx=10, pady=10)
+    janela.configure(bg='#F96F6F')
+    texto = tk.Label(janela, text="Bem vindo a pokedex customizada!!", bg='#B8B7B7', fg='black')
+    texto.config(font=('Helvetica bold', 26))
+    texto.place(anchor = 'center', relx = .5, rely = .1)
     #print("\nMenu:")
     #choice = input("Escolha uma opção entre (1-6): ")
-    botao1 = tk.Button(janela, text="1. Adicionar pokemon", command=Insert_Name)
-    botao1.grid(column=0, row=1, padx=10, pady=10)
+    botao1 = tk.Button(janela, text="1. Adicionar pokemon", bg='#6FF9DE', activebackground="#BC03FC", command=Insert_Name)
+    #botao1.grid(column=0, row=1, padx=50, pady=90)
+    botao1.place(anchor = 'center', relx = .5, rely = .3)
 
-    botao2 = tk.Button(janela, text="2. Mostrar pokedex", command=2)
-    botao2.grid(column=0, row=2, padx=10, pady=10)
+    botao2 = tk.Button(janela, text="2. Mostrar pokedex", bg='#A1F968', activebackground="#BC03FC", command=Mostra_Lista)
+    #botao2.grid(column=1, row=1, padx=50, pady=90)
+    botao2.place(anchor = 'center', relx = .5, rely = .4)
 
-    botao3 = tk.Button(janela, text="3. Salvar pokedex", command=3)
-    botao3.grid(column=0, row=3, padx=10, pady=10)
+    botao3 = tk.Button(janela, text="3. Salvar pokedex", bg='#689EF9', activebackground="#BC03FC", command=Save_Pokedex)
+    #botao3.grid(column=0, row=3, padx=50, pady=90)
+    botao3.place(anchor = 'center', relx = .5, rely = .5)
 
-    botao4 = tk.Button(janela, text="4. Busca usando profundidade (DFS)", command=4)
-    botao4.grid(column=0, row=4, padx=10, pady=10)
+    botao4 = tk.Button(janela, text="4. Busca usando profundidade (DFS)", bg='#F9F068', activebackground="#BC03FC", command=4)
+    #botao4.grid(column=1, row=3, padx=50, pady=90)
+    botao4.place(anchor = 'center', relx = .5, rely = .6)
 
-    botao5 = tk.Button(janela, text="5. Busca usando largura (BFS)", command=5)
-    botao5.grid(column=0, row=5, padx=10, pady=10)
+    botao5 = tk.Button(janela, text="5. Busca usando largura (BFS)", bg='#F9A968', activebackground="#BC03FC", command=5)
+    #botao5.grid(column=0, row=6, padx=50, pady=90)
+    botao5.place(anchor = 'center', relx = .5, rely = .7)
 
-    botao6 = tk.Button(janela, text="6. SAIR", command=exit)
-    botao6.grid(column=0, row=6, padx=10, pady=10)
+    botao6 = tk.Button(janela, text="6. SAIR", bg='#F96879',  activebackground="#BC03FC", command=exit)
+    #botao6.grid(column=1, row=6, padx=50, pady=90)
+    botao6.place(anchor = 'center', relx = .5, rely = .8)
 
-    while True:
-        '''print("\nMenu:")
-        choice = input("Escolha uma opção entre (1-6): ")
-        print("1. Adicionar pokemon")
-        print("2. Mostrar pokedex")
-        print("3. Salvar pokedex")
-        print("4. Busca usando profundidade (DFS)")
-        print("5. Busca usando largura (BFS)")
-        print("6. SAIR")'''
+    '''print("\nMenu:")
+    choice = input("Escolha uma opção entre (1-6): ")
+    print("1. Adicionar pokemon")
+    print("2. Mostrar pokedex")
+    print("3. Salvar pokedex")
+    print("4. Busca usando profundidade (DFS)")
+    print("5. Busca usando largura (BFS)")
+    print("6. SAIR")'''
         
 
-        if choice == "1":
-            print("dummy print")
+    if choice == "1":
+        print("dummy print")
 
-        elif choice == "2":
-            pokedex.show_pokedex()
+    elif choice == "2":
+        pokedex.show_pokedex()
 
-        elif choice == "3":
-            with open("pokedex.txt", "w") as f:
-                for pokemon, evolutions in pokedex.graph.items():
-                    f.write(f"{pokemon} {' '.join(evolutions)}\n")
-            print("Pokedex armazenada!!")
+    elif choice == "3":
+        print("jonis")
 
-        elif choice == "4":
-            name = input("Qual pokemon deseja buscar: ")
-            try:
-                print(f"DFS search starting from {name}:")
-                pokedex.dfs("Arceus", name)
-            except KeyError:
-                print(f"{name} Pokemon não encontrado (*∩*).")
+    elif choice == "4":
+        name = input("Qual pokemon deseja buscar: ")
+        try:
+            print(f"DFS search starting from {name}:")
+            pokedex.dfs("Arceus", name)
+        except KeyError:
+            print(f"{name} Pokemon não encontrado (*∩*).")
 
-        elif choice == "5":
-            name = input("Qual pokemon deseja buscar: ")
-            try:
-                print(f"BFS search starting from {name}:")
-                pokedex.bfs("Arceus", name)
-            except KeyError:
-                print(f"{name} Pokemon não encontrado (*∩*).")
+    elif choice == "5":
+        name = input("Qual pokemon deseja buscar: ")
+        try:
+            print(f"BFS search starting from {name}:")
+            pokedex.bfs("Arceus", name)
+        except KeyError:
+            print(f"{name} Pokemon não encontrado (*∩*).")
 
-        elif choice == "6":
-            print("Tchau Tchau!")
-            break
+    elif choice == "6":
+        print("Tchau Tchau!")
 
-        else:
-            print("Escolha invalida. Por favor tente novamente!!")
-        janela.mainloop()
+    else:
+        print("Escolha invalida. Por favor tente novamente!!")
+    janela.mainloop()
