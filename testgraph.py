@@ -27,7 +27,8 @@ class Pokedex:
                 while prev[path[-1]] is not None:
                     path.append(prev[path[-1]])
                 path.reverse()
-                print(" -> ".join(path))
+                saida = " -> ".join(path)
+                tk.messagebox.showinfo("Linha evolutiva",  saida)
                 return
 
             if node not in visited:
@@ -38,7 +39,7 @@ class Pokedex:
                         queue.append(neighbor)
                         prev[neighbor] = node
 
-        print(f"No path from {start} to {end} found.")
+        tk.messagebox.showinfo("Aviso!!",  f"não encontramos evoluções para: {name} (*∩*).")
 
     def dfs(self, start, end, visited=None, prev=None):
         if visited is None:
@@ -52,9 +53,11 @@ class Pokedex:
             path = [end]
             while prev[path[-1]] is not None:
                 path.append(prev[path[-1]])
-            path.reverse()
-            print(" -> ".join(path))
+            path.reverse()  
+            saida = " -> ".join(path)
+            tk.messagebox.showinfo("Linha evolutiva",  saida)
             return
+
 
         for neighbor in self.graph[start]:
             if neighbor not in visited:
@@ -62,7 +65,8 @@ class Pokedex:
                 self.dfs(neighbor, end, visited, prev)
 
         if start == prev[start]:
-            print(f"No path from {start} to {end} found.")
+            tk.messagebox.showinfo("Aviso!!",  f"não encontramos evoluções para: {name} (*∩*).")
+            return
 
 f = open("pokedex.txt", "a")
 
@@ -172,11 +176,7 @@ class Buscapokemon(tk.Frame):
         try:
             inicio = self.entry.get()
             fim = self.entry2.get()
-            text = pokedex.dfs(inicio, fim)
-            print(text)
-            if text == None:
-                raise Exception(tk.messagebox.showinfo("Aviso!!",  f"não encontramos evoluções para: {name} (*∩*)."))
-            tk.messagebox.showinfo("Linha evolutiva",  text)
+            pokedex.dfs(inicio, fim)
         except KeyError:
             tk.messagebox.showinfo("Aviso!!",  f"não encontramos evoluções para: {name} (*∩*).")
             
@@ -218,11 +218,7 @@ class Alargabusca(tk.Frame):
         try:
             inicio = self.entry.get()
             fim = self.entry2.get()
-            text = pokedex.bfs(inicio, fim)
-            print(text)
-            if text == None:
-                raise Exception(tk.messagebox.showinfo("Aviso!!",  f"não encontramos evoluções para: {name} (*∩*)."))
-            tk.messagebox.showinfo("Linha evolutiva",  text)
+            pokedex.bfs(inicio, fim)
         except KeyError:
             tk.messagebox.showinfo("Aviso!!",  f"não encontramos evoluções para: {name} (*∩*).")
             
