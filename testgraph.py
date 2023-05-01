@@ -174,9 +174,11 @@ class Buscapokemon(tk.Frame):
             fim = self.entry2.get()
             text = pokedex.dfs(inicio, fim)
             print(text)
+            if text == None:
+                raise Exception(tk.messagebox.showinfo("Aviso!!",  f"não encontramos evoluções para: {name} (*∩*)."))
             tk.messagebox.showinfo("Linha evolutiva",  text)
         except KeyError:
-            tk.messagebox.showinfo("Aviso!!",  f"{name} Pokemon não encontrado (*∩*).")
+            tk.messagebox.showinfo("Aviso!!",  f"não encontramos evoluções para: {name} (*∩*).")
             
 
 def Buscador_pokemon():
@@ -185,7 +187,7 @@ def Buscador_pokemon():
     run = Buscapokemon(root)
     root.mainloop()
 
-class Alargabgusca(tk.Frame):
+class Alargabusca(tk.Frame):
 
     def __init__(self, parent):
        tk.Frame.__init__(self, parent)
@@ -218,15 +220,17 @@ class Alargabgusca(tk.Frame):
             fim = self.entry2.get()
             text = pokedex.bfs(inicio, fim)
             print(text)
+            if text == None:
+                raise Exception(tk.messagebox.showinfo("Aviso!!",  f"não encontramos evoluções para: {name} (*∩*)."))
             tk.messagebox.showinfo("Linha evolutiva",  text)
         except KeyError:
-            tk.messagebox.showinfo("Aviso!!",  f"{name} Pokemon não encontrado (*∩*).")
+            tk.messagebox.showinfo("Aviso!!",  f"não encontramos evoluções para: {name} (*∩*).")
             
 
 def BuscaLarga():
     root = tk.Tk()
     root.configure(bg='#F96F6F')
-    run = Buscapokemon(root)
+    run = Alargabusca(root)
     root.mainloop()
 
 def Save_Pokedex():
