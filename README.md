@@ -19,6 +19,22 @@
 ## Screenshots
 Adicione 3 ou mais screenshots do projeto em funcionamento.
 
+
+<p>Imagem do menu:<p>
+<div>
+  <img align="center" alt="png" width="194em" height="180em" src="https://github.com/projeto-de-algoritmos/Grafos1-Pokedex/blob/master/A.png"/>
+</div>
+
+<p>Imagem da tela de inserção do pokemon:<p>
+<div>
+  <img align="center" alt="png" width="194em" height="180em" src="https://github.com/projeto-de-algoritmos/Grafos1-Pokedex/blob/master/B.png"/>
+</div>
+
+<p>Imagem da lista de pokemons:<p>
+<div>
+  <img align="center" alt="png" width="194em" height="180em" src="https://github.com/projeto-de-algoritmos/Grafos1-Pokedex/blob/master/C.png"/>
+</div>
+
 ## Instalação 
 **Linguagem**: Python 3<br>
 o unico pré requisito necessario é o python 3 instalado na maquina.
