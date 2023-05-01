@@ -14,8 +14,57 @@ class Pokedex:
             evolutions = ", ".join(self.graph[pokemon])
             print(f"{pokemon}: {evolutions}")
 
+    def bfs(self, start, end):
+        visited = set()
+        queue = [start]
+        prev = {start: None}
 
+        while queue:
+            node = queue.pop(0)
 
+            if node == end:
+                path = [end]
+                while prev[path[-1]] is not None:
+                    path.append(prev[path[-1]])
+                path.reverse()
+                print(" -> ".join(path))
+                return
+
+            if node not in visited:
+                visited.add(node)
+
+                for neighbor in self.graph[node]:
+                    if neighbor not in visited:
+                        queue.append(neighbor)
+                        prev[neighbor] = node
+
+        print(f"No path from {start} to {end} found.")
+
+    def dfs(self, start, end, visited=None, prev=None):
+        if visited is None:
+            visited = set()
+        if prev is None:
+            prev = {start: None}
+
+        visited.add(start)
+
+        if start == end:
+            path = [end]
+            while prev[path[-1]] is not None:
+                path.append(prev[path[-1]])
+            path.reverse()
+            print(" -> ".join(path))
+            return
+
+        for neighbor in self.graph[start]:
+            if neighbor not in visited:
+                prev[neighbor] = start
+                self.dfs(neighbor, end, visited, prev)
+
+        if start == prev[start]:
+            print(f"No path from {start} to {end} found.")
+
+f = open("pokedex.txt", "a")
 
 def Mostra_Lista():
     file = open("pokedex.txt", "r")
@@ -81,11 +130,10 @@ class Passwordchecker(tk.Frame):
             evolution = self.entry2.get()
         except:
             self.label.config(text="Falha na inserção")
-        if(name and evolution != ""):
+        if((name and evolution) != None):
             pokedex.add_pokemon(name, evolution)
             print("consegui adicionar", name, evolution)
             tk.messagebox.showinfo("Aviso!!",  "Adicionados a lista, para salvar em arquivo clique em [salvar pokedex]")
-
 
 def Insert_Name():
     root = tk.Tk()
@@ -93,57 +141,93 @@ def Insert_Name():
     run = Passwordchecker(root)
     root.mainloop()
 
-f = open("testador.txt", "a")
+class Buscapokemon(tk.Frame):
 
-def bfs(self, start, end):
-    visited = set()
-    queue = [start]
-    prev = {start: None}
+    def __init__(self, parent):
+       tk.Frame.__init__(self, parent)
+       self.parent = parent
+       self.user_interface()
 
-    while queue:
-        node = queue.pop(0)
+    def user_interface(self):
+       self.parent.geometry("600x600")
+       self.parent.title("Inserir Pokemon")
+       self.entry=tk.Entry(self.parent)
+       self.entry.pack()
+       self.entry.place(anchor = 'center', relx = .5, rely = .1)
+       self.label=tk.Label(self.parent,text="Digite o pokemon que deseja iniciar a buscar", bg='#B8B7B7', fg='black')
+       texto.config(font=('Helvetica bold', 26))
+       self.label.pack()
+       self.label.place(anchor = 'center', relx = .5, rely = .3)
+       self.entry2=tk.Entry(self.parent)
+       self.entry2.pack()
+       self.entry2.place(anchor = 'center', relx = .5, rely = .2)
+       self.label=tk.Label(self.parent,text="Digite o pokemon que deseja finalizar a buscar", bg='#B8B7B7', fg='black')
+       texto.config(font=('Helvetica bold', 26))
+       self.label.pack()
+       self.button=tk.Button(self.parent,text="Buscar", bg='#7CFF00', activebackground="#BC03FC", command=self.BuscaNome)
+       self.button.pack(pady=20)
+       self.button.place(anchor = 'center', relx = .5, rely = .5)
 
-        if node == end:
-            path = [end]
-            while prev[path[-1]] is not None:
-                path.append(prev[path[-1]])
-            path.reverse()
-            print(" -> ".join(path))
-            return
+    def BuscaNome(self):
+        try:
+            inicio = self.entry.get()
+            fim = self.entry2.get()
+            text = pokedex.dfs(inicio, fim)
+            print(text)
+            tk.messagebox.showinfo("Linha evolutiva",  text)
+        except KeyError:
+            tk.messagebox.showinfo("Aviso!!",  f"{name} Pokemon não encontrado (*∩*).")
+            
 
-        if node not in visited:
-            visited.add(node)
+def Buscador_pokemon():
+    root = tk.Tk()
+    root.configure(bg='#F96F6F')
+    run = Buscapokemon(root)
+    root.mainloop()
 
-            for neighbor in self.graph[node]:
-                if neighbor not in visited:
-                    queue.append(neighbor)
-                    prev[neighbor] = node
+class Alargabgusca(tk.Frame):
 
-    print(f"Nenhum caminho de {start} para {end} encontrado.")
+    def __init__(self, parent):
+       tk.Frame.__init__(self, parent)
+       self.parent = parent
+       self.user_interface()
 
-def dfs(self, start, end, visited=None, prev=None):
-        if visited is None:
-            visited = set()
-        if prev is None:
-            prev = {start: None}
+    def user_interface(self):
+       self.parent.geometry("600x600")
+       self.parent.title("Inserir Pokemon")
+       self.entry=tk.Entry(self.parent)
+       self.entry.pack()
+       self.entry.place(anchor = 'center', relx = .5, rely = .1)
+       self.label=tk.Label(self.parent,text="Digite o pokemon que deseja iniciar a buscar", bg='#B8B7B7', fg='black')
+       texto.config(font=('Helvetica bold', 26))
+       self.label.pack()
+       self.label.place(anchor = 'center', relx = .5, rely = .3)
+       self.entry2=tk.Entry(self.parent)
+       self.entry2.pack()
+       self.entry2.place(anchor = 'center', relx = .5, rely = .2)
+       self.label=tk.Label(self.parent,text="Digite o pokemon que deseja finalizar a buscar", bg='#B8B7B7', fg='black')
+       texto.config(font=('Helvetica bold', 26))
+       self.label.pack()
+       self.button=tk.Button(self.parent,text="Buscar", bg='#7CFF00', activebackground="#BC03FC", command=self.BuscaNome)
+       self.button.pack(pady=20)
+       self.button.place(anchor = 'center', relx = .5, rely = .5)
 
-        visited.add(start)
+    def BuscaNome(self):
+        try:
+            inicio = self.entry.get()
+            fim = self.entry2.get()
+            text = pokedex.bfs(inicio, fim)
+            print(text)
+            tk.messagebox.showinfo("Linha evolutiva",  text)
+        except KeyError:
+            tk.messagebox.showinfo("Aviso!!",  f"{name} Pokemon não encontrado (*∩*).")
+            
 
-        if start == end:
-            path = [end]
-            while prev[path[-1]] is not None:
-                path.append(prev[path[-1]])
-            path.reverse()
-            print(" -> ".join(path))
-            return
-
-        for neighbor in self.graph[start]:
-            if neighbor not in visited:
-                prev[neighbor] = start
-                self.dfs(neighbor, end, visited, prev)
-
-        if start == prev[start]:
-            print(f"No path from {start} to {end} found.")
+def BuscaLarga():
+    root = tk.Tk()
+    root.configure(bg='#F96F6F')
+    run = Buscapokemon(root)
+    root.mainloop()
 
 def Save_Pokedex():
     with open("pokedex.txt", "w") as f:
@@ -188,11 +272,11 @@ if __name__ == "__main__":
     #botao3.grid(column=0, row=3, padx=50, pady=90)
     botao3.place(anchor = 'center', relx = .5, rely = .5)
 
-    botao4 = tk.Button(janela, text="4. Busca usando profundidade (DFS)", bg='#F9F068', activebackground="#BC03FC", command=4)
+    botao4 = tk.Button(janela, text="4. Busca usando profundidade (DFS)", bg='#F9F068', activebackground="#BC03FC", command=Buscador_pokemon)
     #botao4.grid(column=1, row=3, padx=50, pady=90)
     botao4.place(anchor = 'center', relx = .5, rely = .6)
 
-    botao5 = tk.Button(janela, text="5. Busca usando largura (BFS)", bg='#F9A968', activebackground="#BC03FC", command=5)
+    botao5 = tk.Button(janela, text="5. Busca usando largura (BFS)", bg='#F9A968', activebackground="#BC03FC", command=BuscaLarga)
     #botao5.grid(column=0, row=6, padx=50, pady=90)
     botao5.place(anchor = 'center', relx = .5, rely = .7)
 
@@ -240,4 +324,5 @@ if __name__ == "__main__":
 
     else:
         print("Escolha invalida. Por favor tente novamente!!")
+        #print("dummy call dfs:", pokedex.dfs("Arceus"))
     janela.mainloop()

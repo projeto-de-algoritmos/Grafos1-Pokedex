@@ -1,4 +1,4 @@
-from tkinter import *
+'''from tkinter import *
  
 # create a root window.
 top = Tk()
@@ -32,7 +32,7 @@ listbox.pack()
  
 # Display until User
 # exits themselves.
-top.mainloop()
+top.mainloop()'''
 
 '''def teste():
     entry1 = Entry(janela) 
@@ -121,3 +121,52 @@ btn.pack(pady = 10)
  
 # mainloop, runs infinitely
 tk.mainloop()'''
+
+def dfs(self, tree):
+    if tree.root is None:
+        return []
+    visited, stack = [], [tree.root]
+    while stack:
+        node = stack.pop()
+        visited.append(node)
+        stack.extend(filter(None, [node.r, node.l]))  
+        # append right first, so left will be popped first
+    return visited
+
+
+'''#Import the required libraries
+from tkinter import *
+from tkinter import ttk
+
+#Create an instance of Tkinter frame
+win = Tk()
+
+#Set the geometry of the Tkinter library
+win.geometry("700x350")
+
+label = Label(win, text="Right-click anywhere to display a menu", font= ('Helvetica 18'))
+label.pack(pady= 40)
+
+#Add Menu
+popup = Menu(win, tearoff=0)
+
+#Adding Menu Items
+popup.add_command(label="New")
+popup.add_command(label="Edit")
+popup.add_separator()
+popup.add_command(label="Save")
+
+def menu_popup(event):
+   # display the popup menu
+   try:
+      popup.tk_popup(event.x_root, event.y_root, 0)
+   finally:
+      #Release the grab
+      popup.grab_release()
+
+win.bind("<Button-3>", menu_popup)
+
+button = ttk.Button(win, text="Quit", command=win.destroy)
+button.pack()
+
+mainloop()'''
