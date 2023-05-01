@@ -124,9 +124,6 @@ class Passwordchecker(tk.Frame):
        self.button=tk.Button(self.parent,text="Inserir", bg='#7CFF00', activebackground="#BC03FC", command=self.Namecheck)
        self.button.pack(pady=20)
        self.button.place(anchor = 'center', relx = .5, rely = .5)
-       self.button=tk.Button(self.parent,text="voltar", bg='#FF0036', activebackground="#BC03FC", command=self.destroy)
-       self.button.pack(pady=20)
-       self.button.place(anchor = 'center', relx = .5, rely = .6)
 
     def Namecheck(self):
         try:
