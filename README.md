@@ -55,3 +55,5 @@ Quaisquer outras informações sobre seu projeto podem ser descritas abaixo.
 ## Link mostrando em uso
 
 https://youtu.be/AzCS8c6CqUk
+
+Tambem está disponivel na raiz deste projeto na pasta com nome "Video"
